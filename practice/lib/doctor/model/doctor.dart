@@ -31,22 +31,22 @@ class Doctor {
     required this.totalReviews,
   });
 
-factory Doctor.fromMap(Map<dynamic, dynamic> map, String uid) {
-  return Doctor(
-    uid: uid,
-    category: map['category'],
-    city: map['city'],
-    email: map['email'],
-    firstName: map['firstName'],
-    lastName: map['lastName'],
-    profileImageUrl: map['profileImageUrl'],
-    qualification: map['qualification'],
-    phoneNumber: map['phoneNumber'],
-    yearsOfExperience: map['yearsOfExperience'],
-    latitude: map['latitude'].toDouble(), // Convert to double
-    longitude: map['longitude'].toDouble(), // Convert to double
-    numberOfReviews: map['numberOfReviews'],
-    totalReviews: map['totalReviews'],
-  );
-}
+  factory Doctor.fromMap(Map<dynamic, dynamic> map, String uid) {
+    return Doctor(
+      uid: uid,
+      category: map['category'],
+      city: map['city'],
+      email: map['email'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      profileImageUrl: map['profileImageUrl'],
+      qualification: map['qualification'],
+      phoneNumber: map['phoneNumber'],
+      yearsOfExperience: map['yearsOfExperience'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      numberOfReviews: map['numberOfReviews'],
+      totalReviews: map['totalReviews'],
+    );
+  }
 }
