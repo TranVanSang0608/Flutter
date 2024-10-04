@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "187671765191",
+    "project_id": "pkanghia-27246",
+    "storage_bucket": "pkanghia-27246.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187671765191:android:b0c54674dedd9981b9dee2",
+        "android_client_info": {
+          "package_name": "com.example.pkanghia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFKuizGlZMwA1qZFaon_3ZZqUfHCyBdzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187671765191:android:bd92bb56f65dc435b9dee2",
+        "android_client_info": {
+          "package_name": "com.nghia.appdo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFKuizGlZMwA1qZFaon_3ZZqUfHCyBdzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
