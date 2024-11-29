@@ -15,7 +15,7 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _requestDatabase =
       FirebaseDatabase.instance.ref().child('Requests');
-  List<Booking> _bookings = [];
+  final List<Booking> _bookings = [];
   bool _isLoading = true;
 
   @override
@@ -52,12 +52,12 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Doctor Requests'),
+        title: const Text('Doctor Requests'),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _bookings.isEmpty
-              ? Center(child: Text('No booking available'))
+              ? const Center(child: Text('No booking available'))
               : ListView.builder(
                   itemCount: _bookings.length,
                   itemBuilder: (context, index) {
@@ -84,12 +84,12 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('Update Request Status'),
+              title: const Text('Update Request Status'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Please select the status for this request.'),
-                  SizedBox(height: 16.0),
+                  const Text('Please select the status for this request.'),
+                  const SizedBox(height: 16.0),
                   Column(
                     children: List.generate(statuses.length, (index) {
                       return RadioListTile<String>(
@@ -111,14 +111,14 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
                 TextButton(
                   onPressed: () async {
                     await _updateRequestStatus(requestId, selectedStatus);
                     Navigator.pop(context);
                   },
-                  child: Text('Update Status'),
+                  child: const Text('Update Status'),
                 ),
               ],
             );

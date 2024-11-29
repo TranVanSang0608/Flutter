@@ -10,24 +10,24 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(0),
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Color(0xffF0EFFF),
-        border: Border.all(color: Color(0xffC8C4FF)),
+        color: const Color(0xffF0EFFF),
+        border: Border.all(color: const Color(0xffC8C4FF)),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Card(
-        color: Color(0xffF0EFFF),
+        color: const Color(0xffF0EFFF),
         elevation: 0.0,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
         child: ListTile(
           leading: Container(
             width: 55,
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(60),
-              border: Border.all(color: Color(0xff0064FA)),
+              border: Border.all(color: const Color(0xff0064FA)),
             ),
             child: CircleAvatar(
               backgroundImage: NetworkImage(doctor.profileImageUrl),
@@ -42,7 +42,7 @@ class DoctorCard extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Row(children: [
                 Text('${doctor.category} - ${doctor.city}',
                 style: GoogleFonts.poppins(
@@ -54,7 +54,7 @@ class DoctorCard extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.normal,
                   fontSize: 12,
-                  color: Color(0xffFA9600),
+                  color: const Color(0xffFA9600),
                 ),
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:practice/auth/forgot_password_page.dart';
 import 'package:practice/auth/signup_screen.dart';
 import 'package:practice/doctor/doctor_home_page.dart';
 import 'package:practice/patient/patient_home_page.dart';
@@ -24,10 +25,18 @@ class _LoginPageState extends State<LoginPage> {
   bool _isNavigation = false;
   bool _obscureText = true;
 
+  void _navigateToForgotPassword() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ForgotPasswordScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -43,60 +52,87 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 48,),
+                          const SizedBox(
+                            height: 48,
+                          ),
                           Image.asset('assets/images/plus.png'),
-                          const SizedBox(height: 10,),
-                          Text('Welcome!', style: GoogleFonts.poppins(fontSize: 32, fontWeight: FontWeight.w600),),
-                          Text('Login first', style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.w400),),
-                          const SizedBox(height: 60,),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Welcome!',
+                            style: GoogleFonts.poppins(
+                                fontSize: 32, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            'Login first',
+                            style: GoogleFonts.poppins(
+                                fontSize: 24, fontWeight: FontWeight.w400),
+                          ),
+                          const SizedBox(
+                            height: 60,
+                          ),
                           SizedBox(
                             height: 44,
                             child: TextFormField(
-                              style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13, fontWeight: FontWeight.w500),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffF0EFFF),
-                                contentPadding: const EdgeInsets.only(left: 10, right: 10),
+                                contentPadding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 labelText: 'Email',
-                                labelStyle: GoogleFonts.poppins(fontSize: 13, color: Colors.grey.shade400),
+                                labelStyle: GoogleFonts.poppins(
+                                    fontSize: 13, color: Colors.grey.shade400),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Rounded corners
                                   borderSide: const BorderSide(
-                                    color: Color(0xff0064FA), // Blue border color
+                                    color:
+                                        Color(0xff0064FA), // Blue border color
                                     width: 1.0, // Border width
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color(0xff0064FA), // Blue border color when focused
+                                    color: Color(
+                                        0xff0064FA), // Blue border color when focused
                                     width: 1.0, // Border width
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                    color: Color(0xff0064FA), // Blue border color when not focused
+                                    color: Color(
+                                        0xff0064FA), // Blue border color when not focused
                                     width: 1.0, // Border width
                                   ),
                                 ),
                               ),
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (val) => email = val,
-                              validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                              validator: (val) =>
+                                  val!.isEmpty ? 'Enter an email' : null,
                             ),
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           SizedBox(
                             height: 44,
                             child: TextFormField(
-                              style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13, fontWeight: FontWeight.w500),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffF0EFFF),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 labelText: 'Password',
-                                labelStyle: GoogleFonts.poppins(fontSize: 13, color: Colors.grey.shade400),
+                                labelStyle: GoogleFonts.poppins(
+                                    fontSize: 13, color: Colors.grey.shade400),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
@@ -120,7 +156,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                                    _obscureText
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: Colors.grey.shade400,
                                   ),
                                   onPressed: () {
@@ -146,19 +184,27 @@ class _LoginPageState extends State<LoginPage> {
                             child: ElevatedButton(
                               onPressed: _login,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xff0064FA), // Blue background color
+                                backgroundColor: const Color(
+                                    0xff0064FA), // Blue background color
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Rounded corners
                                 ),
-                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12), // Optional: Padding inside the button
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                    vertical:
+                                        12), // Optional: Padding inside the button
                               ),
                               child: Text(
                                 'Login',
-                                style: GoogleFonts.poppins(fontSize: 17, color: Colors.white, fontWeight: FontWeight.w600, letterSpacing: 0.4), // Text color
+                                style: GoogleFonts.poppins(
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.4), // Text color
                               ),
                             ),
                           ),
-
                           const SizedBox(
                             height: 20,
                           ),
@@ -167,9 +213,33 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const RegisterPage()));
+                                    builder: (context) =>
+                                        const RegisterPage()));
                               },
-                              child: Text('Don’t have an account? Register', style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),),
+                              child: Text(
+                                'Don’t have an account? Register',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 15, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: _navigateToForgotPassword,
+                                  child: Text(
+                                    'Forgot Password?',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff0064FA),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -195,7 +265,8 @@ class _LoginPageState extends State<LoginPage> {
         User? user = userCredential.user;
 
         if (user != null) {
-          DatabaseReference userRef = _database.child('Doctors').child(user.uid);
+          DatabaseReference userRef =
+              _database.child('Doctors').child(user.uid);
           DataSnapshot snapshot = await userRef.get();
 
           if (snapshot.exists) {
@@ -241,18 +312,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _navigateToDoctorHome() {
-    if(!_isNavigation){
+    if (!_isNavigation) {
       _isNavigation = true;
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const DoctorHomePage()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const DoctorHomePage()));
     }
   }
 
   void _navigateToPatientHome() {
-    if(!_isNavigation){
+    if (!_isNavigation) {
       _isNavigation = true;
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const PatientHomePage()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const PatientHomePage()));
     }
   }
 }

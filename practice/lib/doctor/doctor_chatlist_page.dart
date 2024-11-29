@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:practice/chat_screen.dart';
 import 'package:practice/doctor/model/patient.dart';
 
@@ -64,17 +64,17 @@ class _DoctorChatlistPageState extends State<DoctorChatlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with'),),
-      body: _isLoading ? Center(child: CircularProgressIndicator())
+      appBar: AppBar(title: const Text('Chat with'),),
+      body: _isLoading ? const Center(child: CircularProgressIndicator())
           : _chatList.isEmpty
-          ? Center(child: Text('No chats available'))
+          ? const Center(child: Text('No chats available'))
           : ListView.builder(
           itemCount: _chatList.length,
           itemBuilder: (context, index){
             final patient = _chatList[index];
             return Card(
               elevation: 2.0,
-              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: ListTile(
                 title: Text('Chat with ${patient.firstName} ${patient.lastName}'),
                 onTap: (){

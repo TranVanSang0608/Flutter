@@ -17,45 +17,74 @@ class _DoctorListPageState extends State<DoctorListPage> {
       FirebaseDatabase.instance.ref().child('Doctors');
   List<Doctor> _doctors = [];
   bool _isLoading = true;
+  String _selectedCategory = 'All';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _selectedCategory = 'All';
     _fetchDoctors();
   }
 
   Future<void> _fetchDoctors() async {
-    await _database.once().then((DatabaseEvent event) {
-      DataSnapshot snapshot = event.snapshot;
-      List<Doctor> tmpDoctors = [];
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
-        values.forEach((key, value) {
-          Doctor doctor = Doctor.fromMap(value, key);
-          tmpDoctors.add(doctor);
+    try {
+      final DatabaseEvent event = await _database.once();
+      final DataSnapshot snapshot = event.snapshot;
+
+      if (snapshot.value == null) {
+        setState(() {
+          _doctors = [];
+          _isLoading = false;
         });
+        return;
       }
+
+      final Map<dynamic, dynamic> values =
+          snapshot.value as Map<dynamic, dynamic>;
+      final List<Doctor> tmpDoctors = values.entries.map((entry) {
+        final key = entry.key;
+        final value = entry.value;
+        return Doctor.fromMap(value, key);
+      }).toList();
+
       setState(() {
         _doctors = tmpDoctors;
         _isLoading = false;
       });
-    });
+    } catch (e) {
+      print('Error fetching doctors: $e');
+      // Optionally, you can show an error message to the user here
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  List<Doctor> _getFilteredDoctors() {
+    if (_selectedCategory == 'All') {
+      return _doctors;
+    } else {
+      return _doctors
+          .where((doctor) =>
+              doctor.category.toLowerCase() == _selectedCategory.toLowerCase())
+          .toList();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 30.0,
                   ),
                   Text(
@@ -65,7 +94,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Text(
@@ -76,32 +105,67 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       color: Colors.grey.shade600,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildCategoryCard(
-                          context, 'Cardiologist', 'assets/images/heart.png'),
+                        context,
+                        'Cardiologist',
+                        'assets/images/cardiology.png',
+                        isHighlighed: _selectedCategory == 'Cardiologist',
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = 'Cardiologist';
+                          });
+                        },
+                      ),
                       _buildCategoryCard(
-                          context, 'Dentist', 'assets/images/dental.png'),
+                        context,
+                        'Dentist',
+                        'assets/images/dentistry_24.png',
+                        isHighlighed: _selectedCategory == 'Dentist',
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = 'Dentist';
+                          });
+                        },
+                      ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildCategoryCard(
-                          context, 'Oncologist', 'assets/images/onco.png'),
+                        context,
+                        'Oncologist',
+                        'assets/images/oncology.png',
+                        isHighlighed: _selectedCategory == 'Oncologist',
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = 'Oncologist';
+                          });
+                        },
+                      ),
                       _buildCategoryCard(
-                          context, 'See All', 'assets/images/grid.png',
-                          isHighlighed: true),
+                        context,
+                        'All',
+                        'assets/images/border_all.png',
+                        isHighlighed: _selectedCategory == 'All',
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = 'All';
+                          });
+                        },
+                      ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Row(
@@ -120,26 +184,28 @@ class _DoctorListPageState extends State<DoctorListPage> {
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xff006AFA),
+                          color: const Color(0xff006AFA),
                         ),
                       ),
                     ],
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: _doctors.length,
+                      itemCount: _getFilteredDoctors().length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      DoctorDetailPage(doctor: _doctors[index]),
-                                ),
-                              );
-                            },
-                            child: DoctorCard(doctor: _doctors[index]));
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DoctorDetailPage(
+                                    doctor: _getFilteredDoctors()[index]),
+                              ),
+                            );
+                          },
+                          child:
+                              DoctorCard(doctor: _getFilteredDoctors()[index]),
+                        );
                       },
                     ),
                   ),
@@ -151,51 +217,58 @@ class _DoctorListPageState extends State<DoctorListPage> {
 }
 
 Widget _buildCategoryCard(BuildContext context, String title, dynamic icon,
-    {bool isHighlighed = false}) {
-  return Container(
-    width: MediaQuery.of(context).size.width * 0.4,
-    decoration: BoxDecoration(
-        color: isHighlighed ? Color(0xff006AFA) : Color(0xffF0EFFF),
-        borderRadius: BorderRadius.circular(15),
-        border: isHighlighed
-            ? null
-            : Border.all(color: Color(0xffC8C4FF), width: 2)),
-    child: Card(
-      color: isHighlighed ? Color(0xff006AFA) : Color(0xffF0EFFF),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon is IconData)
-              Icon(
-                icon,
-                size: 40,
-                color: isHighlighed ? Colors.white : Color(0xffF0EFFF),
-              )
-            else
-              Image.asset(
-                icon,
-                width: 40,
-                height: 40,
-              ),
-            SizedBox(
-              height: 16,
+    {bool isHighlighed = false, VoidCallback? onTap}) {
+  return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+            color: isHighlighed
+                ? const Color(0xff006AFA)
+                : const Color(0xffF0EFFF),
+            borderRadius: BorderRadius.circular(15),
+            border: isHighlighed
+                ? null
+                : Border.all(color: const Color(0xffC8C4FF), width: 2)),
+        child: Card(
+          color:
+              isHighlighed ? const Color(0xff006AFA) : const Color(0xffF0EFFF),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon is IconData)
+                  Icon(
+                    icon,
+                    size: 40,
+                    color:
+                        isHighlighed ? Colors.white : const Color(0xffF0EFFF),
+                  )
+                else
+                  Image.asset(
+                    icon,
+                    width: 40,
+                    height: 40,
+                  ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    color:
+                        isHighlighed ? Colors.white : const Color(0xff006AFA),
+                  ),
+                )
+              ],
             ),
-            Text(
-              title,
-              style: GoogleFonts.poppins(
-                fontSize: 15,
-                color: isHighlighed ? Colors.white : Color(0xff006AFA),
-              ),
-            )
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      ));
 }

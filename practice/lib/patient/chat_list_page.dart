@@ -68,10 +68,10 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with'),),
-      body: _isLoading ? Center(child: CircularProgressIndicator())
+      appBar: AppBar(title: const Text('Chat with'),),
+      body: _isLoading ? const Center(child: CircularProgressIndicator())
           : _chatList.isEmpty
-      ? Center(child: Text('No chats available'))
+      ? const Center(child: Text('No chats available'))
       : ListView.builder(
         itemCount: _chatList.length,
           itemBuilder: (context, index){
@@ -86,18 +86,18 @@ class _ChatListPageState extends State<ChatListPage> {
               },
               child: Container(
                 height: 48,
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Color(0xffF0EFFF),
+                  color: const Color(0xffF0EFFF),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Color(0xffC8C4FF),
+                    color: const Color(0xffC8C4FF),
                   )
                 ),
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 10.0),
+                      padding: const EdgeInsets.only(left: 16.0, right: 10.0),
                       child: Text('${doctor.firstName} ${doctor.lastName}',
                       style: GoogleFonts.poppins(
                         fontSize: 17, fontWeight: FontWeight.w500

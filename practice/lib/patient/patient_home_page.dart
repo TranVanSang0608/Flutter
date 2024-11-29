@@ -15,9 +15,9 @@ class _PatientHomePageState extends State<PatientHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _children = [
-    DoctorListPage(),
-    ChatListPage(),
-    ProfilePage(),
+    const DoctorListPage(),
+    const ChatListPage(),
+    const ProfilePage(),
   ];
 
   void _onItmTapped(int index) {
@@ -30,20 +30,20 @@ class _PatientHomePageState extends State<PatientHomePage> {
     return await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text('Are you sure?'),
-              content: Text('Do you want to exit the app?'),
+              title: const Text('Are you sure?'),
+              content: const Text('Do you want to exit the app?'),
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },
-                    child: Text('No')),
+                    child: const Text('No')),
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(true);
                       SystemNavigator.pop();
                     },
-                    child: Text('Yes')),
+                    child: const Text('Yes')),
               ],
             ));
   }
@@ -55,8 +55,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
       child: Scaffold(
         body: _children.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color(0xff0064FA),
-          unselectedItemColor: Color(0xffBEBEBE),
+          backgroundColor: const Color(0xff0064FA),
+          unselectedItemColor: const Color(0xffBEBEBE),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(
